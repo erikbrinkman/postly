@@ -34,7 +34,7 @@ add content as well as how to style it.
 Known Bugs / TODOs
 ------------------
 
-* Use pdf.js for <img> pdf support
+* Pdfs are rendered on canvas, as such, they lose their awesome vector nature. Should replace this with some library that can load a pdf as an svg
 * Clean up font size setting between portrait and landscape, including a better default font-size when in portrait mode
 * Fix font size / paper size when printing, because vw and vh don't work in @print
 * Adjusting font size off of viewport size is a little hacky. Once the @viewport tag is supported in major browsers, that should make a much better default
@@ -50,4 +50,4 @@ See the [licenses](licenses) folder
 * MathJax for rendering equations
 * Normalize.css for a set of good defaults
 * Less to support better custom styling and ease of page settings
-* Potentially evenentually pdf.js for pdf rendering.
+* Pdf.js for pdf rendering.

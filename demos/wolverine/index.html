@@ -10,7 +10,10 @@
     <link rel="stylesheet" type="text/css" href="../../poster.css" />
     <link rel="stylesheet/less" type="text/css" href="wolverine.less" />
     <script src="../../less.min.js" type="text/javascript"></script>
-    <script type="text/javascript" src="../../MathJax/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript" src="../../MathJax/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+    </script>
+    <script src="../../pdf.js" type="text/javascript"></script>
+    <script src="../../pdf-img.js" type="text/javascript"></script>
   </head>
   <body>
     <main class="landscape">
@@ -92,7 +95,9 @@
             <h3 class="box-title">Figures</h3>
             <div class="box-content">
               Figures can be made with straight html like this:
-              <img src="logo.svg" class="figure" />
+              <!-- PDFs can be included as images, but this doesn't make them
+              scale appropriately -->
+              <img src="figure.pdf" class="figure" />
             </div>
           </section>
 
