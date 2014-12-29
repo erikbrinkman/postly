@@ -1,0 +1,14 @@
+{
+  "devDependencies": {
+    "browser-sync": "*",
+    "gulp": "*",
+    "gulp-if": "*",
+    "gulp-less": "*",
+    "gulp-uglify": "*",
+    "gulp-minify-css": "*",
+    "gulp-rename": "*",
+    "gulp-notify": "*",
+    "gulp-coffee": "*"
+  },
+  "private": true
+}

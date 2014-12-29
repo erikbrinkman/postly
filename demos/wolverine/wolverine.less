@@ -1,0 +1,58 @@
+/*==============================================================================
+  Custom Styles
+  ============================================================================*/
+
+@layout: "landscape";
+/* A0 style paper */
+@paper-height: 1189;
+@paper-width: 841;
+
+@import "./../../layout"; /* To set page size appropriately */
+
+.header-background, .box-title {
+    font-size: 2em;
+    background-color: #0e2b58;
+    border-bottom: 0.2em solid #fccb06;
+}
+
+header, .box-title, .box-content {
+    padding: 1%;
+}
+
+.column {
+    padding: 0 1% 1% 0;
+}
+
+.column:first-child {
+    padding-left: 1%;
+}
+
+.logo {
+    float: right;
+    height: 100%;
+}
+
+.title, .author, .box-title {
+    color: white;
+    margin: 0;
+    line-height: 1;
+}
+
+.title {
+    font-size: 2em;
+    margin-bottom: 0.2em;
+}
+
+.author {
+    font-size: 1em;
+}
+
+.box-title {
+    text-align: center;
+}
+
+.figure {
+    display: block;
+    margin: 1em auto;
+    width: 70%;
+}

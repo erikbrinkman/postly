@@ -1,0 +1,79 @@
+html,
+button,
+input,
+select,
+textarea {
+    color: rgba(0,0,0,.87);
+}
+
+html {
+    font-size: 1vh;
+    line-height: 1.8;
+}
+
+::-moz-selection {
+    background: #2196F3;
+    text-shadow: none;
+}
+
+::selection {
+    background: #2196F3;
+    text-shadow: none;
+}
+
+html,
+body {
+    height: 100%;
+    width: 100%;
+    padding: 0;
+    margin: 0;
+    background-color: #BDBDBD;
+}
+
+main {
+    margin: 0 auto;
+    background-color: white;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 0 1em 0 rgb(0,0,0);
+}
+
+header {
+    box-sizing: border-box;
+    height: 15%;
+}
+
+.header-background {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    box-sizing: border-box;
+}
+
+.title-box {
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    margin: 0 auto;
+    display: flex;
+    flex-flow: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.box, .box-title, .box-content {
+    box-sizing: border-box;
+}
+
+.columns {
+    flex: 1;
+    display: flex;
+    flex-direction: row;
+}
+
+.column {
+    flex: 1 1 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}

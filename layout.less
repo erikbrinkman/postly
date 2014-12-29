@@ -1,0 +1,66 @@
+/*==============================================================================
+  Layout Code - Don't Modify
+  ============================================================================*/
+
+/* FIXME Better default font size for portrait */
+
+/* portrait */
+main {
+    height: 100vh;
+    width: @paper-width / @paper-height * 100vh;
+}
+
+@media screen and (max-aspect-ratio: @paper-width/@paper-height ) {
+    main {
+        height: @paper-height / @paper-width * 100vw;
+        width: 100vw;
+    }
+
+    html when (@layout = "landscape") {
+        font-size: @paper-height / @paper-width * 1vw;
+    }
+}
+
+/* A style paper - landscape */
+main when (@layout = "landscape") {
+    height: 100vh;
+    width: @paper-height / @paper-width * 100vh;
+}
+
+@media screen and (max-aspect-ratio: @paper-height/@paper-width ) {
+    main when (@layout = "landscape") {
+        height: @paper-width / @paper-height * 100vw;
+        width: 100vw;
+    }
+
+    html when (@layout = "landscape") {
+        font-size: @paper-width / @paper-height * 1vw;
+    }
+}
+
+/* A mixin that sets the print layout appropriately */
+.page-setting {
+    size: portrait;
+}
+
+.page-setting when (@layout = "landscape") {
+    size: landscape;
+}
+
+/* Corrected styles for printing */
+@media print {
+    main {
+        height: 100%;
+        width: 100%;
+    }
+
+    html {
+        /* FIXME Heuristic for landscape mode */
+        font-size: 2mm;
+    }
+
+    @page {
+        margin: 0;
+        .page-setting;
+    }
+}
