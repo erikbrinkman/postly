@@ -1,18 +1,24 @@
-/*==============================================================================
-  Custom Styles
-  ============================================================================*/
+/* A theme for a University of Michigan themed poster */
+main {
+    /* A0 landscape */
+    height: 841mm;
+    width: 1189mm;
+}
 
-@layout: "landscape";
-/* A0 style paper */
-@paper-height: 1189;
-@paper-width: 841;
+header {
+    /* Height of title bar */
+    height: 15%;
+}
 
-@import "./../../layout"; /* To set page size appropriately */
+html {
+    /* scale up global font size */
+    font-size: 240%;
+}
 
 .header-background, .box-title {
-    font-size: 2em;
+    font-size: 2rem;
     background-color: #0e2b58;
-    border-bottom: 0.2em solid #fccb06;
+    border-bottom: 0.1rem solid #fccb06;
 }
 
 header, .box-title, .box-content {
@@ -39,12 +45,12 @@ header, .box-title, .box-content {
 }
 
 .title {
-    font-size: 2em;
+    font-size: 4rem;
     margin-bottom: 0.2em;
 }
 
 .author {
-    font-size: 1em;
+    font-size: 2rem;
 }
 
 .box-title {
@@ -55,4 +61,11 @@ header, .box-title, .box-content {
     display: block;
     margin: 1em auto;
     width: 70%;
+}
+
+@media print {
+    html, body {
+        /* FIXME This is a heuristic for printing, I don't know why it's necessary */
+        zoom: 1.15;
+    }
 }

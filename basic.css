@@ -1,0 +1,23 @@
+/* A basic stylesheet to build from */
+main {
+    /* A0 landscape */
+    height: 841mm;
+    width: 1189mm;
+}
+
+header {
+    /* Height of title bar */
+    height: 15%;
+}
+
+html {
+    /* scale up global font size */
+    font-size: 300%;
+}
+
+@media print {
+    html, body {
+        /* FIXME This is a heuristic for printing, I don't know why it's necessary */
+        zoom: 1.15;
+    }
+}

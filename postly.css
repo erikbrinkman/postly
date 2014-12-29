@@ -7,7 +7,7 @@ textarea {
 }
 
 html {
-    font-size: 1vh;
+    font-size: 1em;
     line-height: 1.8;
 }
 
@@ -35,12 +35,11 @@ main {
     background-color: white;
     display: flex;
     flex-direction: column;
-    box-shadow: 0 0 1em 0 rgb(0,0,0);
+    box-shadow: 0 0 1rem 0 rgb(0,0,0);
 }
 
 header {
     box-sizing: border-box;
-    height: 15%;
 }
 
 .header-background {
@@ -76,4 +75,23 @@ header {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+a[href^="mailto:"] {
+    font-family: Monaco, monospace;
+}
+
+@media print {
+    @page {
+        margin: 0;
+    }
+
+    html, body {
+        background-color: red;
+    }
 }

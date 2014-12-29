@@ -7,16 +7,19 @@
     <meta name="viewport" content="width=device-width, initial-scale=1" />
    
     <link rel="stylesheet" type="text/css" href="normalize.css" />
-    <link rel="stylesheet" type="text/css" href="poster.css" />
-    <link rel="stylesheet/less" type="text/css" href="custom.less" />
-    <script src="less.min.js" type="text/javascript"></script>
     <script type="text/javascript" src="MathJax/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
     </script>
     <script src="pdf.js" type="text/javascript"></script>
-    <script src="pdf-img.js" type="text/javascript"></script>
+    <link rel="stylesheet" type="text/css" href="postly.css" />
+    <script src="postly.js" type="text/javascript"></script>
+    <link rel="stylesheet" type="text/css" href="basic.css" />
+    <style>
+     /* Custom Styles */
+    </style>
   </head>
   <body>
-    <main class="landscape">
+    <main>
+      <!-- header is the title box -->
       <header>
         <div class="header-background">
           <!-- Images go here for both left and right -->
@@ -27,8 +30,11 @@
         </div>
       </header>
       
+      <!-- Columns contains all of the columns of data -->
       <div class="columns">
+        <!-- Each column is it's own tag -->
         <div class="column">
+          <!-- Each box is a section, with a header and  content -->
           <section class="box">
             <h3 class="box-title">Box Header</h3>
             <div class="box-content">
@@ -37,6 +43,7 @@
           </section>
         </div>
         
+        <!-- Columns will auto adjust in size, just include as many as you want -->
         <div class="column">
         </div>        
       </div>

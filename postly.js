@@ -56,10 +56,21 @@
     });
   }
 
-  /* On page load, finds every image that is trying to load a pdf and instead
-   * replaces it with a canvas that has the first page of the pdf rendered onto
-   * it */
+  /* Grabs the "main" element and sets the body zoom so that the page is always in view */
+  function setupZooming() {
+    var main = document.querySelector("main");
+    function setZoom() {
+      document.body.setAttribute("style", "zoom:" + Math.min(window.innerHeight / main.offsetHeight, window.innerWidth / main.offsetWidth));
+    }             
+    setZoom();
+    window.onresize = setZoom;
+  }
+  
+  /* On page load */
   document.addEventListener("DOMContentLoaded", function(event) { 
+    /* On page load, finds every image that is trying to load a pdf and instead
+     * replaces it with a canvas that has the first page of the pdf rendered onto
+     * it */
     [].forEach.call(document.querySelectorAll('img[src$=".pdf"]'), function(img) {
       PDFJS.getDocument(img.getAttribute("src")).then( function(pdf) {
         pdf.getPage(1).then( function(page) {
@@ -69,6 +80,8 @@
         });
       });
     });
+  
+    setupZooming();
   });
-
+  
 }());

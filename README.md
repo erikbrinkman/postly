@@ -3,26 +3,50 @@ Postly
 
 An HTML / CSS / Javascript template for creating academic posters
 
+Important
+---------
+
+There is still one fairly large flaw. For some reason chrome (on ubuntu) is
+still scaling a page with absolute dimensions. In order to get the poster to
+actually fit on a page I had to manually tweak the zoom. You can do this by
+adding
+
+```css
+@media print {
+    html, body {
+        zoom: 1.15; /* or w/e is necessary */
+    }
+}
+```
+
+to your personal style sheet. This should allow you to print normally.
+
+Also, currently pdfs are supported by rendering on canvas. To get full vector
+support, it's recommended that you convert pdfs to svg before inclusion.
+
 Get Started
 -----------
 
 Everything you need to create a beautiful academic poster is set up for you in
-the root of this directory. Note, I have yet to fix a major issue with
-printing, so currently posters can only be saved to letter paper, and the font
-size has to be tweaked a little bit. Postly is developed in and for chrome, so
-ymmv in other browsers. In addition, all dependent libraries are included so
-that posters can be created offline.
+the root of this directory. Postly is developed in and for chrome, so ymmv in
+other browsers. I've included all of the dependencies here so that postly can
+be used offline.
 
 The most basic poster, with minimum styling is set up in
-[`index.html`](index.html). Modify this to add content to your
-poster. [`custom.less`](custom.less) is a less stylesheet that should be
-modified to tweak the theming of your poster.
+[`index.html`](index.html). Modify this to add content to your poster. This
+used the [`basic.css`](basic.css) stylesheet to provide the necessary parameters
+for the poster to render. [`wolverine.css`](wolverine.css) is a more advanced
+stylesheet that was used to create [this demo](demos/wolverine/index.html).
 
-To see an example of what it's possible to create with postly, check out the
-[demos](demos) folder.
+The template itself is fairly basic html, and should be easily understood with
+cursory knowledge of html. Similarly there's nothing too advanced with custom
+styling. Cursory knowledge of css and a look at `wolverine.css` should be
+enough to modify styling on your own. The main gotcha is that some items are
+necessarily sized to `100%`, and so to add a margin you may actually have to add
+padding to a parent, as well as make sure the `box-sizing` is `border-box`.
 
-To aid in deveopment, there's a gulpfile that will set up browser
-sycing. Simply run `npm install` from the root directory, and then when you
+To aid in development, there's a gulpfile that will set up browser
+syncing. Simply run `npm install` from the root directory, and then when you
 want to develop, run `gulp` (you may need to also install gulp globally). This
 will open up index.html in a new window, and refresh as soon as any relevant
 files are changed.
@@ -34,20 +58,23 @@ add content as well as how to style it.
 Known Bugs / TODOs
 ------------------
 
-* Pdfs are rendered on canvas, as such, they lose their awesome vector nature. Should replace this with some library that can load a pdf as an svg
-* Clean up font size setting between portrait and landscape, including a better default font-size when in portrait mode
-* Fix font size / paper size when printing, because vw and vh don't work in @print
-* Adjusting font size off of viewport size is a little hacky. Once the @viewport tag is supported in major browsers, that should make a much better default
-* Experiment with using flex box wrapping for column support
-* Documentation
-* At some point create a webapp that makes it easy to modify this with a gui...
+* Pdfs are rendered on canvas, as such, they lose their awesome vector
+  nature. Should replace this with some library that can load a pdf as an
+  svg. This may be possible with an svg backend of pdf.js.
+* Currently, the page is kept sized via javascript modifying the `html` `zoom`
+  property. Once the @viewport tag is supported in major browsers, that may
+  make a much better solution.
+* Due to zoom based solution, zooming in is impossible.
+* I may want to experiment with making the columns part of `flex-box` wrapping.
+* Improved Documentation.
+* At some point create a webapp that makes it easy to modify this with a
+  gui. This will likely embed the actual page as an iframe and go from there.
 
 Supporting Projects
 -------------------
 
 See the [licenses](licenses) folder
 
-* MathJax for rendering equations
 * Normalize.css for a set of good defaults
-* Less to support better custom styling and ease of page settings
+* MathJax for rendering equations
 * Pdf.js for pdf rendering.
