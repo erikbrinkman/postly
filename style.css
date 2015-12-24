@@ -1,0 +1,48 @@
+body {
+    font-family: 'Roboto', 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    background-color: #fafafa;
+}
+
+/* Remove obfuscator */
+.mdl-layout__obfuscator {
+    display: none;
+}
+
+/* Adjust size of main in response to visibility
+ *
+ * Most of these styles are hardcoded and will not be tolerant to changes in
+ * mdl or unknown edge cases
+ */
+main {
+    transition: width cubic-bezier(.4,0,.2,1) .2s;
+    align-self: flex-end;
+    width: 100%;
+    height: 100%;
+    position: relative;
+}
+
+.mdl-layout__drawer.is-visible ~ main {
+    width: calc(100% - 240px);
+}
+
+#add-element {
+    position: absolute;
+    right: 24px;
+    bottom: 24px;
+
+    transition: right cubic-bezier(.4,0,.2,1) .2s, bottom cubic-bezier(.4,0,.2,1) .2s;
+}
+
+@media (max-width: 479px) {
+    #add-element {
+        position: absolute;
+        right: 16px;
+        bottom: 16px;
+    }
+}
+
+#poster {
+    position: absolute;
+    height: 100%;
+    width: 100%;
+}
