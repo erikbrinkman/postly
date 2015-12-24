@@ -36,7 +36,7 @@
         <div class="mdl-layout mdl-js-layout mdl-layout--fixed-header">
             <header class="mdl-layout__header">
                 <div class="mdl-layout__header-row">
-                    <span class="mdl-layout-title">Postly</span>
+                    <span contentEditable="true" class="mdl-layout-title" id="title">Postly</span>
                     <div class="mdl-layout-spacer"></div>
                     <button id="new" class="mdl-button mdl-js-button mdl-button--icon mdl-navigation__link">
                         <i class="material-icons">add_circle</i>
@@ -62,15 +62,21 @@
                     <div class="mdl-tooltip" for="print">
                         Print
                     </div>
+                    <button id="about" class="mdl-button mdl-js-button mdl-button--icon mdl-navigation__link">
+                        <i class="material-icons">info</i>
+                    </button>
+                    <div class="mdl-tooltip" for="about">
+                        About
+                    </div>
                 </div>
             </header>
             <div class="mdl-layout__drawer">
                 <span class="mdl-layout-title">
                     <!-- FIXME spacing on all screens is messed up -->
-                    <button onclick="document.querySelector('.mdl-layout__drawer').classList.remove('is-visible')" class="mdl-button mdl-js-button mdl-button--icon">
+                    <button id="close-drawer" class="mdl-button mdl-js-button mdl-button--icon">
                         <i class="material-icons">menu</i>
                     </button>
-                    Postly
+                    <span contentEditable="true" id="drawer-title">Postly</span>
                 </span>
                 <nav class="mdl-navigation">
                     <div class="mdl-navigation__link">
@@ -81,17 +87,15 @@
                           min="1" max="2" step="0.2">
                     </div>
                     <div class="mdl-navigation__link">
-                        <form action="#">
-                            <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-                                <input class="mdl-textfield__input" type="text" id="test-style">
-                                <label class="mdl-textfield__label" for="test-style">Text Style</label>
-                            </div>
-                        </form>
+                        <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+                            <input class="mdl-textfield__input" type="text" id="test-style">
+                            <label class="mdl-textfield__label" for="test-style">Text Style</label>
+                        </div>
                     </div>
                 </nav>
             </div>
             <main class="mdl-layout__content">
-            <iframe id="poster" src="about:blank"></iframe>
+            <iframe id="poster" src="/blank.html"></iframe>
             <button id="add-element" class="mdl-button mdl-js-button mdl-button--fab mdl-js-ripple-effect mdl-button--colored">
                 <i class="material-icons">add</i>
             </button>

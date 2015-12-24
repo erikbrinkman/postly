@@ -46,3 +46,11 @@ main {
     height: 100%;
     width: 100%;
 }
+
+/* TODO
+ * Make content editable better:
+ * 1. Have mouse over indicators that it's editable
+ * 2. Change style on editing
+ * 3. Select all on click
+ * 4. Capture enter or shift-enter as confirm
+ */
