@@ -58,6 +58,11 @@ add content as well as how to style it.
 Known Bugs / TODOs
 ------------------
 
+* Make title editable, and have it reflect file saved to, and load it based off
+  of file loaded.
+* Sync CSS
+* Drag and drop
+
 * Pdfs are rendered on canvas, as such, they lose their awesome vector
   nature. Should replace this with some library that can load a pdf as an
   svg. This may be possible with an svg backend of pdf.js.

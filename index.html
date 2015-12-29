@@ -24,7 +24,7 @@
         <meta name="msapplication-navbutton-color" content="FIXME">
 
         <!-- Default favicon -->
-        <link rel="shortcut icon" href="FIXME">
+        <link rel="shortcut icon" href="postly.png">
 
         <link rel="stylesheet" href="https://storage.googleapis.com/code.getmdl.io/1.0.6/material.grey-blue.min.css">
         <link href="//fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
@@ -36,33 +36,33 @@
         <div class="mdl-layout mdl-js-layout mdl-layout--fixed-header">
             <header class="mdl-layout__header">
                 <div class="mdl-layout__header-row">
-                    <span contentEditable="true" class="mdl-layout-title" id="title">Postly</span>
+                    <span class="mdl-layout-title" id="title">Postly</span>
                     <div class="mdl-layout-spacer"></div>
-                    <button id="new" class="mdl-button mdl-js-button mdl-button--icon mdl-navigation__link">
+                    <button id="new" class="mdl-button mdl-js-button mdl-button--icon mdl-js-ripple-effect mdl-navigation__link">
                         <i class="material-icons">add_circle</i>
                     </button>
                     <div class="mdl-tooltip" for="new">
                         New Poster
                     </div>
-                    <button id="load" class="mdl-button mdl-js-button mdl-button--icon mdl-navigation__link">
+                    <button id="load" class="mdl-button mdl-js-button mdl-button--icon mdl-js-ripple-effect mdl-navigation__link">
                         <i class="material-icons">file_upload</i>
                     </button>
                     <div class="mdl-tooltip" for="load">
                         Load
                     </div>
-                    <button id="save" class="mdl-button mdl-js-button mdl-button--icon mdl-navigation__link">
+                    <button id="save" class="mdl-button mdl-js-button mdl-button--icon mdl-js-ripple-effect mdl-navigation__link">
                         <i class="material-icons">file_download</i>
                     </button>
                     <div class="mdl-tooltip" for="save">
                         Save
                     </div>
-                    <button id="print" class="mdl-button mdl-js-button mdl-button--icon mdl-navigation__link">
+                    <button id="print" class="mdl-button mdl-js-button mdl-button--icon mdl-js-ripple-effect mdl-navigation__link">
                         <i class="material-icons">print</i>
                     </button>
                     <div class="mdl-tooltip" for="print">
                         Print
                     </div>
-                    <button id="about" class="mdl-button mdl-js-button mdl-button--icon mdl-navigation__link">
+                    <button id="about" class="mdl-button mdl-js-button mdl-button--icon mdl-js-ripple-effect mdl-navigation__link">
                         <i class="material-icons">info</i>
                     </button>
                     <div class="mdl-tooltip" for="about">
@@ -76,7 +76,7 @@
                     <button id="close-drawer" class="mdl-button mdl-js-button mdl-button--icon">
                         <i class="material-icons">menu</i>
                     </button>
-                    <span contentEditable="true" id="drawer-title">Postly</span>
+                    <span id="drawer-title">Postly</span>
                 </span>
                 <nav class="mdl-navigation">
                     <div class="mdl-navigation__link">
@@ -95,7 +95,7 @@
                 </nav>
             </div>
             <main class="mdl-layout__content">
-            <iframe id="poster" src="/blank.html"></iframe>
+            <iframe id="poster" src="blank.html"></iframe>
             <button id="add-element" class="mdl-button mdl-js-button mdl-button--fab mdl-js-ripple-effect mdl-button--colored">
                 <i class="material-icons">add</i>
             </button>

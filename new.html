@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>Poster</title>
+    <meta name="description" content="A poster" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <style id="postly--paper-style">
+        html, body {
+            width: 100%;
+            height: 100%;
+            padding: 0;
+            margin: 0;
+        }
+
+        body {
+            background-color: #fafafa;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        html {
+            font-size: 1vw;
+        }
+
+        .postly--paper {
+            width: 100vw;
+            height: 70.7317073171vw;
+            box-shadow: 0 4px 5px 0 rgba(0,0,0,.14),0 1px 10px 0 rgba(0,0,0,.12),0 2px 4px -1px rgba(0,0,0,.2);
+        }
+
+        @media (min-aspect-ratio: 1189 / 841) {
+            html {
+                font-size: 1.41379310345vh;
+            }
+
+            body {
+                flex-direction: row;
+            }
+
+            .postly--paper {
+                width: 141.379310345vh;
+                height: 100vh;
+            }
+        }
+
+        @page {
+            size: 1189mm 841mm;
+            margin: 0;
+        }
+
+        @media print {
+            html {
+                font-size: 11.89mm;
+            }
+
+            body {
+                background-color: red;
+            }
+
+            .postly--paper {
+                width: 1189mm;
+                height: 841mm;
+            }
+        }
+    </style>
+
+    <style id="postly--structure-style">
+        .postly--paper {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .postly--header, .postly--box-header {
+            position: relative;
+        }
+
+        .postly--content {
+            flex: 1 0;
+            display: flex;
+            flex-direction: row;
+        }
+
+        .postly--column {
+            flex: 1 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .postly--box-header, .postly--box-content {
+            box-sizing: border-box;
+        }
+
+        .postly--box-title {
+            margin: 0;
+        }
+    </style>
+
+    <style id="postly--custom-style">
+        /* Paper color */
+        .postly--paper {
+            background-color: white;
+            font-family: "Helvetica", "Arial", sans-serif;
+        }
+
+        /* Header color */
+        .postly--header, .postly--box-header {
+            background-color: #9e9e9e;
+        }
+
+        /* Header alignment */
+        .postly--title, .postly--authors {
+            text-align: center;
+        }
+
+        .postly--title {
+            font-size: 3rem;
+        }
+
+        .postly--authors {
+            font-size: 1.5rem;
+        }
+
+        .postly--box-header {
+            font-size: 1.5rem;
+        }
+
+        .postly--box-title {
+            text-align: center;
+        }
+
+        /* Page Margins */
+        .postly--header {
+            margin: 1rem;
+        }
+        .postly--column {
+            margin: 0 1rem 1rem 0;
+        }
+        .postly--column:first-child {
+            margin-left: 1rem;
+        }
+
+        /* Box Margins */
+        .postly--box-header, .postly--box-content {
+            padding: 1rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="postly--paper">
+        <header class="postly--header">
+            <h1 class="postly--title">Title</h1>
+            <h2 class="postly--authors">Authors</h2>
+        </header>
+        <main class="postly--content">
+        <div class="postly--column">
+        </div>
+        <div class="postly--column">
+        </div>
+        <div class="postly--column">
+        </div>
+        </main>
+    </div>
+</body>
+</html>

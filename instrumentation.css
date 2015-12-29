@@ -1,0 +1,28 @@
+.postly--drag-handle, .postly--delete-handle {
+    position: absolute;
+    opacity: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    transition: opacity ease 0.2s;
+}
+
+.postly--drag-handle {
+    left: 0.5em;
+    cursor: move;
+}
+
+.postly--delete-handle {
+    right: 0.5em;
+}
+
+.postly--box-header:hover .postly--drag-handle, .postly--box-header:hover .postly--delete-handle {
+    opacity: 1;
+}
+
+.postly--box {
+    transition: opacity ease 0.2s;
+}
+
+.postly--box.dragging {
+    opacity: 0.4;
+}
