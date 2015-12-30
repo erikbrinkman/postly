@@ -51,17 +51,16 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title></dc:title>
+        <dc:title />
       </cc:Work>
     </rdf:RDF>
   </metadata>
-  <g
-     transform="translate(-54.756154,-273.97996)"
-     id="layer1">
-    <path
-       id="path4157"
-       d="m 272.63839,321.70789 -151.01172,151.00981 151.01172,0 0,-151.00981 z m 35.93359,0 0,151.00981 51.97852,0 c 31.90379,0 57.42578,25.5239 57.42578,57.4277 0,31.1949 -25.522,57.4277 -57.42578,57.4277 l -87.91211,0 0,-78.9218 -151.01172,0 0,298.7031 151.01172,0 0,-69.4805 87.91211,0 c 57.42682,0 107.05531,-20.5592 147.46679,-60.9707 40.41147,-40.4115 60.97069,-89.3309 60.97071,-146.7578 0,-57.4268 -20.55924,-107.0553 -60.97071,-147.46681 -40.41148,-40.4115 -90.03998,-60.9707 -147.46679,-60.9707 l -51.97852,0 z"
-       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:medium;line-height:125%;font-family:KiloGram;-inkscape-font-specification:KiloGram;text-align:start;letter-spacing:0px;word-spacing:0px;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       inkscape:connector-curvature="0" />
-  </g>
+  <path
+     style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:medium;line-height:125%;font-family:KiloGram;-inkscape-font-specification:KiloGram;text-align:start;letter-spacing:0px;word-spacing:0px;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+     d="m 217.88224,47.72793 -151.011724,151.00981 151.011724,0 0,-151.00981 z"
+     id="path4189" />
+  <path
+     style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:medium;line-height:125%;font-family:KiloGram;-inkscape-font-specification:KiloGram;text-align:start;letter-spacing:0px;word-spacing:0px;text-anchor:start;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+     d="M 283.45117 47.728516 L 283.45117 198.73828 L 305.79492 198.73828 C 337.69871 198.73828 363.2207 224.26222 363.2207 256.16602 C 363.2207 287.36092 337.6987 313.59375 305.79492 313.59375 L 217.88281 313.59375 L 217.88281 264.30664 L 66.871094 264.30664 L 66.871094 533.375 L 217.88281 533.375 L 217.88281 463.89453 L 305.79492 463.89453 C 363.22174 463.89453 412.85024 443.33533 453.26172 402.92383 C 493.67319 362.51233 514.2324 313.59292 514.23242 256.16602 C 514.23242 198.73922 493.67319 149.11073 453.26172 108.69922 C 412.85024 68.287718 363.22173 47.728516 305.79492 47.728516 L 283.45117 47.728516 z "
+     id="path4157" />
 </svg>

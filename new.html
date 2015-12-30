@@ -74,7 +74,7 @@
             flex-direction: column;
         }
 
-        .postly--header, .postly--box-header {
+        .postly--header, .postly--box-header, .postly--box-content {
             position: relative;
         }
 
@@ -89,10 +89,15 @@
             display: flex;
             flex-direction: column;
             justify-content: space-between;
+            position: relative;
         }
 
         .postly--box-header, .postly--box-content {
             box-sizing: border-box;
+        }
+
+        .postly--box-content-source, .postly--box-title-source {
+            display: none;
         }
 
         .postly--box-title {

@@ -1,28 +1,114 @@
-.postly--drag-handle, .postly--delete-handle {
+.postly--box-interaction {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
     position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 20;
     opacity: 0;
-    top: 50%;
-    transform: translateY(-50%);
     transition: opacity ease 0.2s;
+    box-sizing: border-box;
+    padding: 0 0.5em;
+}
+
+.postly--box-interaction:hover {
+    opacity: 1;
+}
+
+.postly--box-interaction-spacer {
+    flex-grow: 1;
+    order: 2;
 }
 
 .postly--drag-handle {
-    left: 0.5em;
+    order: 1;
     cursor: move;
 }
 
 .postly--delete-handle {
-    right: 0.5em;
+    order: 4;
 }
 
-.postly--box-header:hover .postly--drag-handle, .postly--box-header:hover .postly--delete-handle {
-    opacity: 1;
+.postly--edit-handle {
+    order: 3;
 }
 
 .postly--box {
     transition: opacity ease 0.2s;
 }
 
-.postly--box.dragging {
-    opacity: 0.4;
+.postly--box.postly--dragging {
+    opacity: 0.5;
+    z-index: 64;
+}
+
+.postly--column-overlay {
+    position: absolute;
+    width:  100%;
+    height: 100%;
+    z-index: 32;
+}
+
+.postly--dummy-box {
+    opacity: 0.5;
+}
+
+.postly--box-title-source {
+    font: inherit;
+    outline: none;
+    position: absolute;
+    top: 0.25em;
+    left: 0.25em;
+    width: calc(100% - 0.5em);
+    height: calc(100% - 0.5em);
+    padding: 0.25em;
+    z-index: 24;
+    box-sizing: border-box;
+    border: none;
+}
+
+.postly--content-edit-overlay {
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background-color: rgba(127,127,127,0);
+    transition: background-color ease 0.4s;
+    z-index: 16;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Opacity Heuristics should probably be more methodical */
+.postly--content-edit-overlay:hover {
+    background-color: rgba(127,127,127,0.5);
+}
+
+.postly--content-edit-icon {
+    opacity: 0;
+    transition: opacity ease 0.4s;
+}
+
+.postly--content-edit-overlay:hover > .postly--content-edit-icon {
+    opacity: 0.87;
+}
+
+.postly--box-content-source {
+    font: inherit;
+    outline: none;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 24;
+    width: 100%;
+    height: 100%;
+    box-sizing: border-box;
+    resize: vertical;
+    border: none;
+    padding: 0.5em;
 }
