@@ -71,6 +71,15 @@ window.addEventListener("load", () => {
 
             // Adjust css sidebar
             document.querySelector("#num-columns").value = pdoc.querySelectorAll(".postly--column").length;
+            var rules = pdoc.querySelector("#postly--paper-style").sheet.rules;
+            var pageSize = null;
+            for (var i = 0; i < rules.length; i++) {
+                if (rules[i].type === 6) {
+                    pageSize = rules[i].style.size;
+                    break;
+                }
+            }
+            console.log(sizeToName[pageSize]);
         }
 
         // TODO Add drag and drop support: https://developer.mozilla.org/en-US/docs/Using_files_from_web_applications#Selecting_files_using_drag_and_drop
@@ -127,6 +136,7 @@ window.addEventListener("load", () => {
          *------------------------------
          */
 
+        // Number of columns
         var numColumns = document.querySelector("#num-columns");
         numColumns.addEventListener("input", e => {
             var change = numColumns.value - pdoc.querySelectorAll(".postly--column").length;
@@ -153,6 +163,33 @@ window.addEventListener("load", () => {
                 }
             }
         });
+
+        // Paper size
+        var namedSizes = { // Landscape
+            "A0": "1189mm 841mm",
+            "A4": "297mm 210mm",
+            "Letter": "11in 8.5in"
+        };
+        for (var size of Object.keys(namedSizes)) {
+            namedSizes[size + " Portrait"] = namedSizes[size].split(" ").reverse().join(" ");
+        }
+        var sizeToName = {};
+        for (var size in namedSizes) {
+            sizeToName[namedSizes[size]] = size;
+        }
+
+        var paperSizeMenu = document.querySelector("#paper-size-div ul");
+        var customButton = paperSizeMenu.querySelector(":scope > li:last-child");
+
+        for (var size in namedSizes) {
+            var option = document.createElement("li");
+            option.classList.add("mdl-menu__item");
+            option.appendChild(document.createTextNode(size));
+            componentHandler.upgradeElement(option);
+            option.classList.add("mdl-js-ripple-effect");
+            componentHandler.upgradeElement(option);
+            paperSizeMenu.insertBefore(option, customButton);
+        }
 
         /*-------------------
          * Dragging Handlers

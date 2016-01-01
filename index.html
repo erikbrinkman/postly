@@ -31,7 +31,6 @@
         <link href="//fonts.googleapis.com/css?family=Roboto:400,700" rel="stylesheet" type="text/css">
         <link rel="stylesheet" href="/style.css">
         <script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
-
     </head>
     <body>
         <div class="mdl-layout mdl-js-layout mdl-layout--fixed-header">
@@ -82,13 +81,24 @@
                 <nav class="mdl-navigation">
                     <div class="mdl-navigation__link">
                         <label for="num-columns">Number of Columns</label>
-                        <input class="mdl-slider mdl-js-slider" type="range"
+                        <input class="mdl-slider mdl-js-slider mdl-slider--accent" type="range"
                           min="1" max="4" step="1" id="num-columns">
                     </div>
                     <div class="mdl-navigation__link">
-                        <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-                            <input class="mdl-textfield__input" type="text" id="test-style">
-                            <label class="mdl-textfield__label" for="test-style">Text Style</label>
+                        <form id="custom-paper-size-form" style="display: none">
+                            <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+                                <input class="mdl-textfield__input" type="text" pattern="\d*\.?\d+(cm|mm|in)\s+\d*\.?\d+\1" id="custom-paper-size">
+                                <label class="mdl-textfield__label" for="custom-paper-size">Custom Paper Size</label>
+                                <span class="mdl-textfield__error">Units must be the same</span>
+                            </div>
+                        </form>
+                        <div id="paper-size-div">
+                            <label for="paper-size">Paper Size</label>
+                            <button class="mdl-button mdl-js-button mdl-js-ripple-effect choose-button" id="paper-size"></button>
+                            <ul class="mdl-menu mdl-menu--bottom-left mdl-js-menu mdl-js-ripple-effect"
+                                for="paper-size">
+                                <li class="mdl-menu__item">Custom</li>
+                            </ul>
                         </div>
                     </div>
                 </nav>

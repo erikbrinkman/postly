@@ -8,8 +8,8 @@ TODOs
 
 * Make title editable, and have it reflect file saved to, and load it based off
   of file loaded.
-* Sync CSS
-* Insert images / edit images
+* Sync CSS : http://stackoverflow.com/questions/3326494/parsing-css-in-javascript-jquery
+* Insert images / edit images : http://stackoverflow.com/questions/18650168/convert-blob-to-base64
 * CSS Themes
 * Webfonts
 * Edit title images
@@ -19,6 +19,7 @@ TODOs
 * Use Ace or CodeMirror for better editing
 * MathJax fonts may not be saved...
 * Update licenses
+* Get ripple effect on dynamically added menu buttons
 * Zoom on poster (unsure how to do this properly)
 
 Supporting Projects
