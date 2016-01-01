@@ -40,10 +40,10 @@
                     <span class="mdl-layout-title" id="title">Postly</span>
                     <div class="mdl-layout-spacer"></div>
                     <button id="new" class="mdl-button mdl-js-button mdl-button--icon mdl-js-ripple-effect mdl-navigation__link">
-                        <i class="material-icons">add_circle</i>
+                        <i class="material-icons">delete</i>
                     </button>
                     <div class="mdl-tooltip" for="new">
-                        New Poster
+                        Delete Poster
                     </div>
                     <button id="load" class="mdl-button mdl-js-button mdl-button--icon mdl-js-ripple-effect mdl-navigation__link">
                         <i class="material-icons">file_upload</i>
@@ -81,11 +81,9 @@
                 </span>
                 <nav class="mdl-navigation">
                     <div class="mdl-navigation__link">
-                        Blank setting
-                    </div>
-                    <div class="mdl-navigation__link">
+                        <label for="num-columns">Number of Columns</label>
                         <input class="mdl-slider mdl-js-slider" type="range"
-                          min="1" max="2" step="0.2">
+                          min="1" max="4" step="1" id="num-columns">
                     </div>
                     <div class="mdl-navigation__link">
                         <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">

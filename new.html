@@ -74,7 +74,7 @@
             flex-direction: column;
         }
 
-        .postly--header, .postly--box-header, .postly--box-content {
+        .postly--header, .postly--box-header, .postly--box-content, .postly--title, .postly--authors {
             position: relative;
         }
 
@@ -96,11 +96,8 @@
             box-sizing: border-box;
         }
 
-        .postly--box-content-source, .postly--box-title-source {
-            display: none;
-        }
-
         .postly--box-title {
+            position: relative;
             margin: 0;
         }
     </style>
@@ -158,8 +155,8 @@
 <body>
     <div class="postly--paper">
         <header class="postly--header">
-            <h1 class="postly--title">Title</h1>
-            <h2 class="postly--authors">Authors</h2>
+            <h1 class="postly--title" source="Title"></h1>
+            <h2 class="postly--authors" source="Authors"></h2>
         </header>
         <main class="postly--content">
         <div class="postly--column">

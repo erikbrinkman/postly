@@ -5,6 +5,11 @@ window.addEventListener("load", () => {
         // Poster Document
         var pdoc = document.querySelector("#poster").contentDocument;
 
+        /*----------------------------------
+         * Configuration of save, load, etc
+         *----------------------------------
+         */
+
         // Close drawer when icon is clicked
         document.querySelector("#close-drawer")
             .addEventListener("click", e => document.querySelector(".mdl-layout__drawer").classList.remove("is-visible"));
@@ -51,17 +56,26 @@ window.addEventListener("load", () => {
             pdoc.documentElement.innerHTML = nodes.documentElement.innerHTML;
 
             // Add title and author instrumentation
+            var title = pdoc.querySelector(".postly--title");
+            renderInline(title);
+            addEditOverlay(title, "input", renderInline);
+            var authors = pdoc.querySelector(".postly--authors");
+            renderInline(authors);
+            addEditOverlay(authors, "input", renderInline);
 
             // Add element level instrumentation
             var boxes = pdoc.querySelectorAll(".postly--box");
             for (var i = 0; i < boxes.length; i++) {
                 addBoxInstrumentation(boxes[i]);
             }
+
+            // Adjust css sidebar
+            document.querySelector("#num-columns").value = pdoc.querySelectorAll(".postly--column").length;
         }
 
         // TODO Add drag and drop support: https://developer.mozilla.org/en-US/docs/Using_files_from_web_applications#Selecting_files_using_drag_and_drop
         // Load button
-        document.getElementById("load").addEventListener("click", e => {
+        document.querySelector("#load").addEventListener("click", e => {
             var inp = document.createElement("input");
             inp.style.display = "none";
             inp.type = "file";
@@ -80,7 +94,7 @@ window.addEventListener("load", () => {
         });
 
         // Save button
-        document.getElementById("save").addEventListener("click", e => {
+        document.querySelector("#save").addEventListener("click", e => {
             var clone = pdoc.documentElement.cloneNode(true);
             // FIXME this doesn't remove everything
             var instrumentations = clone.querySelectorAll(".postly--instrumentation");
@@ -103,10 +117,42 @@ window.addEventListener("load", () => {
         });
 
         // Print button
-        document.getElementById("print").addEventListener("click", e => document.getElementById("poster").contentWindow.print());
+        document.querySelector("#print").addEventListener("click", e => document.getElementById("poster").contentWindow.print());
 
         // About button
         document.querySelector("#about").addEventListener("click", e => open("//github.com/erikbrinkman/postly"));
+
+        /*-----------------------------
+         * Synchronization with sidebar
+         *------------------------------
+         */
+
+        var numColumns = document.querySelector("#num-columns");
+        numColumns.addEventListener("input", e => {
+            var change = numColumns.value - pdoc.querySelectorAll(".postly--column").length;
+            if (change > 0) {
+                var content = pdoc.querySelector(".postly--content");
+                for (var i = 0; i < change; i++) {
+                    var div = document.createElement("div");
+                    div.classList.add("postly--column");
+                    content.appendChild(div);
+                }
+            } else if (change < 0) {
+                var boxesToMove = pdoc.querySelectorAll(
+                    ".postly--column:nth-last-child(-n+" + (-change) + ") .postly--box");
+                var destinationColumn = pdoc.querySelector(
+                    ".postly--column:nth-last-child(" + (-change + 1) +")");
+                for (var i = 0; i < boxesToMove.length; i++) {
+                    destinationColumn.appendChild(boxesToMove[i]);
+                }
+                
+                var columnsToRemove = pdoc.querySelectorAll(
+                    ".postly--column:nth-last-child(-n+" + (-change) + ")");
+                for (var i = 0; i < columnsToRemove.length; i++) {
+                    columnsToRemove[i].parentNode.removeChild(columnsToRemove[i]);
+                }
+            }
+        });
 
         /*-------------------
          * Dragging Handlers
@@ -215,7 +261,18 @@ window.addEventListener("load", () => {
         /*----------------------------
          * Instrumentation for Editing
          *-----------------------------
+         *
+         * In general, each editable element has an extra attribute "source".
+         * This contains the unadulterated text that may be edited to be
+         * rendered. This text is usually piped through a markdown renderer and
+         * then MathJax in order to produce the final result.
          */
+
+        function renderInline(element) {
+            element.innerHTML = "";
+            element.appendChild(document.createTextNode(element.getAttribute("source")));
+            MathJax.Hub.Queue(["Typeset", MathJax.Hub, element]);
+        }
 
         var converter = new showdown.Converter({
             noHeaderId: true,
@@ -223,96 +280,96 @@ window.addEventListener("load", () => {
             tables: true
         });
 
-        function renderTitleSource(source) {
-            var render = source.parentNode.querySelector(".postly--box-title");
-            source.setAttribute("value", source.value);
-            render.innerHTML = "";
-            render.appendChild(document.createTextNode(source.value));
-            MathJax.Hub.Queue(["Typeset", MathJax.Hub, render]);
-            source.style.display = "none";
+        function renderMultiline(element) {
+            // TODO Intercept images here to load
+            element.innerHTML = converter.makeHtml(element.getAttribute("source"));
+            MathJax.Hub.Queue(["Typeset", MathJax.Hub, element]);
         }
 
-        function renderSource(source) {
-            var value = source.value;
-            // TODO Intercept images here to load
-            var render = source.parentNode.querySelector(".postly--box-content-render");
-            source.innerHTML = "";
-            source.appendChild(document.createTextNode(value));
-            render.innerHTML = converter.makeHtml(value);
-            MathJax.Hub.Queue(["Typeset", MathJax.Hub, render]);
-            source.style.display = "none";
+        function genericEditHandle(element, type, callback, acceptEnter) {
+            var sourceEdit = document.createElement(type);
+
+            sourceEdit.classList.add("postly--source-edit", "postly--instrumentation");
+            sourceEdit.value = element.getAttribute("source");
+
+            sourceEdit.addEventListener("focusout", e => {
+                element.setAttribute("source", sourceEdit.value || "[Empty Text]");
+                sourceEdit.parentNode.removeChild(sourceEdit);
+                callback(element);
+            });
+            sourceEdit.addEventListener("keypress", e => {
+                if (e.keyIdentifier === "Enter" && (!acceptEnter || e.shiftKey)) {
+                    sourceEdit.blur();
+                }
+            });
+
+            element.appendChild(sourceEdit);
+            sourceEdit.focus();
+        }
+
+        function addEditOverlay(element, type, callback, acceptEnter) {
+            var editOverlay = document.createElement("div");
+            editOverlay.classList.add("postly--edit-overlay", "postly--instrumentation");
+            editOverlay.addEventListener("click", e => {
+                element.removeChild(editOverlay);
+                genericEditHandle(element, type, elem => {
+                    callback(element);
+                    addEditOverlay(element, type, callback, acceptEnter);
+                }, acceptEnter);
+            });
+
+            var edit = document.createElement("i");
+            edit.classList.add("material-icons");
+            edit.appendChild(document.createTextNode("mode_edit"));
+            editOverlay.appendChild(edit);
+
+            element.appendChild(editOverlay);
         }
 
         // Function that adds instrumentation to a box
         function addBoxInstrumentation(box) {
+            // Instrument Header
             var interactionBox = document.createElement("div");
             interactionBox.classList.add("postly--box-interaction", "postly--instrumentation");
 
             var spacer = document.createElement("div");
-            interactionBox.appendChild(spacer);
             spacer.classList.add("postly--box-interaction-spacer");
+            interactionBox.appendChild(spacer);
 
             var dragHandle = document.createElement("i");
-            interactionBox.appendChild(dragHandle);
-            dragHandle.classList.add("material-icons", "postly--drag-handle");
+            dragHandle.classList.add("material-icons", "postly--drag-handle", "postly--box-interaction-icon");
             dragHandle.draggable = true;
             dragHandle.addEventListener("dragstart", dragBoxStart);
             dragHandle.addEventListener("dragend", dragBoxEnd);
             dragHandle.appendChild(document.createTextNode("drag_handle"));
+            interactionBox.appendChild(dragHandle);
 
-            var titleSource = box.querySelector(".postly--box-title-source");
-            titleSource.addEventListener("focusout", e => renderTitleSource(titleSource));
-            titleSource.addEventListener("keypress", e => {
-                if (e.keyIdentifier === "Enter") {
-                    titleSource.blur();
-                }
-            });
-            renderTitleSource(titleSource);
+            var title = box.querySelector(".postly--box-title");
+            renderInline(title);
 
             var editHandle = document.createElement("i");
-            interactionBox.appendChild(editHandle);
-            editHandle.classList.add("material-icons", "postly--edit-handle");
-            editHandle.addEventListener("click", e => {
-                titleSource.style.display = "block";
-                titleSource.focus();
-            });
+            editHandle.classList.add("material-icons", "postly--edit-handle", "postly--box-interaction-icon");
+            editHandle.addEventListener("click", e => genericEditHandle(title, "input", renderInline));
             editHandle.appendChild(document.createTextNode("mode_edit"));
+            interactionBox.appendChild(editHandle);
 
             var deleteHandle = document.createElement("i");
-            interactionBox.appendChild(deleteHandle);
-            deleteHandle.classList.add("material-icons", "postly--delete-handle");
+            deleteHandle.classList.add("material-icons", "postly--delete-handle", "postly--box-interaction-icon");
             deleteHandle.addEventListener("click", e => {
                 if (confirm("Do you wish to delete this box?")) {
                     box.parentNode.removeChild(box);
                 }
             });
             deleteHandle.appendChild(document.createTextNode("delete"));
+            interactionBox.appendChild(deleteHandle);
 
             var headerDiv = box.querySelector(".postly--box-header");
             headerDiv.insertBefore(interactionBox, headerDiv.childNodes[0]);
 
-            var source = box.querySelector(".postly--box-content-source");
-            source.addEventListener("keypress", e => {
-                if (e.keyIdentifier === "Enter" && e.shiftKey) {
-                    e.preventDefault();
-                    source.blur(); // Causes focus out render, prevents double render
-                }
-            });
-            source.addEventListener("focusout", e => renderSource(source));
-            renderSource(source);
-
-            var contentEditOverlay = document.createElement("div");
-            contentEditOverlay.classList.add("postly--content-edit-overlay", "postly--instrumentation");
-            contentEditOverlay.addEventListener("click", e => {
-                source.style.display = "block";
-                source.focus();
-            });
-            var edit = document.createElement("i");
-            contentEditOverlay.appendChild(edit);
-            edit.classList.add("material-icons", "postly--content-edit-icon");
-            edit.appendChild(document.createTextNode("mode_edit"));
+            // Instrument Body
             var content = box.querySelector(".postly--box-content");
-            content.insertBefore(contentEditOverlay, content.childNodes[0]);
+            renderMultiline(content);
+            addEditOverlay(content, "textarea", renderMultiline, true);
         }
 
         // Add event listener for "add box" button
@@ -321,35 +378,24 @@ window.addEventListener("load", () => {
             box.classList.add("postly--box");
 
             var headerDiv = document.createElement("div");
-            box.appendChild(headerDiv);
             headerDiv.classList.add("postly--box-header");
+            box.appendChild(headerDiv);
 
-            var headerSource = document.createElement("input");
-            headerDiv.appendChild(headerSource);
-            headerSource.classList.add("postly--box-title-source");
-            headerSource.value = "Click to add box title";
             var header = document.createElement("h3");
-            headerDiv.appendChild(header);
             header.classList.add("postly--box-title");
-            header.appendChild(document.createTextNode("Box Title"));
+            header.setAttribute("source", "Box Title");
+            headerDiv.appendChild(header);
 
             var content = document.createElement("div");
-            box.appendChild(content);
             content.classList.add("postly--box-content");
-            var source = document.createElement("textarea");
-            content.appendChild(source);
-            source.classList.add("postly--box-content-source");
-            source.appendChild(document.createTextNode("Click to edit box markdown"));
-            var render = document.createElement("div");
-            content.appendChild(render);
-            render.classList.add("postly--box-content-render");
+            content.setAttribute("source", "Box Content");
+            box.appendChild(content);
 
             // Add instrumentation
             addBoxInstrumentation(box);
 
-            // XXX Currently adds to end of last column
-            var column = pdoc.querySelector(".postly--column:last-child");
-            column.appendChild(box);
+            // Currently adds to end of last column
+            pdoc.querySelector(".postly--column:last-child").appendChild(box);
         });
 
 
