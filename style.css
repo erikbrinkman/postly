@@ -50,6 +50,5 @@ main {
 /* These are styles for the css menu */
 .choose-button {
     display: block;
-    width: 100%;
-    text-align: left;
+    text-transform: none;
 }

@@ -39,7 +39,7 @@ window.addEventListener("load", () => {
             var nodes = new DOMParser().parseFromString(content,  "text/html");
 
             // Add global instrumentation
-            var firstHead = nodes.head.childNodes[0];
+            var firstHead = nodes.head.children[0];
             var iconFont = document.createElement("link");
             iconFont.classList.add("postly--instrumentation");
             iconFont.href = "//fonts.googleapis.com/icon?family=Material+Icons";
@@ -79,7 +79,8 @@ window.addEventListener("load", () => {
                     break;
                 }
             }
-            console.log(sizeToName[pageSize]);
+            paperSizeButton.innerHTML = "";
+            paperSizeButton.appendChild(document.createTextNode(sizeToName[pageSize]));
         }
 
         // TODO Add drag and drop support: https://developer.mozilla.org/en-US/docs/Using_files_from_web_applications#Selecting_files_using_drag_and_drop
@@ -166,29 +167,77 @@ window.addEventListener("load", () => {
 
         // Paper size
         var namedSizes = { // Landscape
-            "A0": "1189mm 841mm",
-            "A4": "297mm 210mm",
-            "Letter": "11in 8.5in"
+            "A0": [1189, 841, "mm"],
+            "A4": [297, 210, "mm"],
+            "Letter": [11, 8.5, "in"]
         };
-        for (var size of Object.keys(namedSizes)) {
-            namedSizes[size + " Portrait"] = namedSizes[size].split(" ").reverse().join(" ");
+        for (var name of Object.keys(namedSizes)) {
+            var landscape = namedSizes[name];
+            namedSizes[name + " Portrait"] = [].concat(landscape[1], landscape[0], landscape[2]);
         }
         var sizeToName = {};
-        for (var size in namedSizes) {
-            sizeToName[namedSizes[size]] = size;
+        for (var name in namedSizes) {
+            var size = namedSizes[name];
+            var sizeStr = `${size[0]}${size[2]} ${size[1]}${size[2]}`;
+            sizeToName[sizeStr] = name;
         }
 
-        var paperSizeMenu = document.querySelector("#paper-size-div ul");
-        var customButton = paperSizeMenu.querySelector(":scope > li:last-child");
+        var paperSizeButton = document.querySelector("#paper-size"),
+            paperSizeMenu = document.querySelector("#paper-size-div ul");
 
-        for (var size in namedSizes) {
-            var option = document.createElement("li");
-            option.classList.add("mdl-menu__item");
-            option.appendChild(document.createTextNode(size));
-            componentHandler.upgradeElement(option);
-            option.classList.add("mdl-js-ripple-effect");
-            componentHandler.upgradeElement(option);
-            paperSizeMenu.insertBefore(option, customButton);
+        function setPageDimensions(dimensions) {
+            var width = dimensions[0],
+                height = dimensions[1],
+                unit = dimensions[2],
+                newStyle = `
+.postly--paper {
+    width: 100vw;
+    height: ${height / width * 100}vw;
+}
+
+@media (min-aspect-ratio: ${width} / ${height}) {
+    html {
+        font-size: ${width / height}vh;
+    }
+
+    body {
+        flex-direction: row;
+    }
+
+    .postly--paper {
+        width: ${width / height * 100}vh;
+        height: 100vh;
+    }
+}
+
+@page {
+    size: ${width}${unit} ${height}${unit};
+    margin: 0;
+}
+
+@media print {
+    html {
+        font-size: ${width / 100}${unit};
+    }
+
+    .postly--paper {
+        width: ${width}${unit};
+        height: ${height}${unit};
+    }
+}`
+            var pageStyle = pdoc.querySelector("#postly--paper-style");
+            pageStyle.innerHTML = "";
+            pageStyle.appendChild(document.createTextNode(newStyle));
+        }
+
+        var sizeOptions = paperSizeMenu.children;
+        for (var i = 0; i < sizeOptions.length; i++) {
+            sizeOptions[i].addEventListener("click", evt => {
+                var size = evt.target.innerHTML;
+                paperSizeButton.innerHTML = "";
+                paperSizeButton.appendChild(document.createTextNode(size));
+                setPageDimensions(namedSizes[size]);
+            });
         }
 
         /*-------------------
@@ -220,7 +269,7 @@ window.addEventListener("load", () => {
             for (var i = 0; i < columns.length; i++) {
                 var overlay = document.createElement("div");
                 overlay.classList.add("postly--column-overlay");
-                columns[i].insertBefore(overlay, columns[i].childNodes[0]);
+                columns[i].insertBefore(overlay, columns[i].children[0]);
 
                 overlay.addEventListener("dragenter", dragColumnOverlayEnter);
                 overlay.addEventListener("dragover", dragColumnOverlayOver);
@@ -264,7 +313,7 @@ window.addEventListener("load", () => {
 
         function dragColumnOverlayOver(evt) {
             var column = evt.target.parentNode,
-                divs = column.childNodes,
+                divs = column.children,
                 currentBeforeOrAfter = -1,
                 dummyDiv = null,
                 closestDiv = null,
@@ -401,7 +450,7 @@ window.addEventListener("load", () => {
             interactionBox.appendChild(deleteHandle);
 
             var headerDiv = box.querySelector(".postly--box-header");
-            headerDiv.insertBefore(interactionBox, headerDiv.childNodes[0]);
+            headerDiv.insertBefore(interactionBox, headerDiv.children[0]);
 
             // Instrument Body
             var content = box.querySelector(".postly--box-content");
