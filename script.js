@@ -111,6 +111,15 @@ window.addEventListener("load", () => {
             for (var i = 0; i < instrumentations.length; i++) {
                 instrumentations[i].parentNode.removeChild(instrumentations[i]);
             }
+            // Set page style appropriately
+            var newPageStyle = cssRulesToString(pdoc.querySelector("#postly--paper-style").sheet.rules);
+            var newCustomStyle = cssRulesToString(pdoc.querySelector("#postly--custom-style").sheet.rules);
+            var pageStyle = clone.querySelector("#postly--paper-style");
+            pageStyle.innerHTML = "";
+            pageStyle.appendChild(document.createTextNode(newPageStyle));
+            var customStyle = clone.querySelector("#postly--custom-style");
+            customStyle.innerHTML = "";
+            customStyle.appendChild(document.createTextNode(newCustomStyle));
 
             var blob = new Blob([clone.outerHTML], {type: "text/html"});
             var url = URL.createObjectURL(blob);
@@ -188,46 +197,18 @@ window.addEventListener("load", () => {
         function setPageDimensions(dimensions) {
             var width = dimensions[0],
                 height = dimensions[1],
-                unit = dimensions[2],
-                newStyle = `
-.postly--paper {
-    width: 100vw;
-    height: ${height / width * 100}vw;
-}
+                unit = dimensions[2];
+            var pageStyle = pdoc.querySelector("#postly--paper-style").sheet.rules;
 
-@media (min-aspect-ratio: ${width} / ${height}) {
-    html {
-        font-size: ${width / height}vh;
-    }
-
-    body {
-        flex-direction: row;
-    }
-
-    .postly--paper {
-        width: ${width / height * 100}vh;
-        height: 100vh;
-    }
-}
-
-@page {
-    size: ${width}${unit} ${height}${unit};
-    margin: 0;
-}
-
-@media print {
-    html {
-        font-size: ${width / 100}${unit};
-    }
-
-    .postly--paper {
-        width: ${width}${unit};
-        height: ${height}${unit};
-    }
-}`
-            var pageStyle = pdoc.querySelector("#postly--paper-style");
-            pageStyle.innerHTML = "";
-            pageStyle.appendChild(document.createTextNode(newStyle));
+            // This is very fragile, but other than direct searching, I don't know a good way to do this
+            pageStyle[0].style.height = `${height / width * 100}vw`;
+            pageStyle[1].media.mediaText = `(min-aspect-ratio: ${width} / ${height})`;
+            pageStyle[1].cssRules[0].style.fontSize = `${width / height}vh`;
+            pageStyle[1].cssRules[2].style.width = `${width / height * 100}vh`;
+            pageStyle[2].style.size = `${width}${unit} ${height}${unit}`;
+            pageStyle[3].cssRules[0].style.fontSize = `${width / 100}${unit}`;
+            pageStyle[3].cssRules[1].style.width = `${width}${unit}`;
+            pageStyle[3].cssRules[1].style.height = `${height}${unit}`;
         }
 
         var sizeOptions = paperSizeMenu.children;
@@ -484,6 +465,19 @@ window.addEventListener("load", () => {
             pdoc.querySelector(".postly--column:last-child").appendChild(box);
         });
 
+        /*-------------------------
+         * Generic Helper Functions
+         *-------------------------
+         */
+
+        // Converts javascript style rules object into css text
+        function cssRulesToString(ruleList) {
+            var ruleText = [];
+            for (var i = 0; i < ruleList.length; i++) {
+                ruleText.push(ruleList[i].cssText);
+            }
+            return ruleText.join("\n\n");
+        }
 
         // Load blank poster at beginning
         newPoster();
