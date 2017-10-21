@@ -30,6 +30,7 @@
         <link href="//fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
         <link href="//fonts.googleapis.com/css?family=Roboto:400,700" rel="stylesheet" type="text/css">
         <link rel="stylesheet" href="/style.css">
+        <!-- FIXME Switch to KaTeX? / In general, need a good way to preserve markup so that it renders identically offline, but when opened in postly will strip it out to replace on the fly -->
         <script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
     </head>
     <body>
@@ -102,6 +103,11 @@
                                 <li class="mdl-menu__item">A0 Portrait</li>
                             </ul>
                         </div>
+                    </div>
+                    <div class="mdl-navigation__link">
+                        <label for="title-font-size">Title Font Size</label>
+                        <input class="mdl-slider mdl-js-slider mdl-slider--accent" type="range"
+                          min="0" max="5" step="0.1" id="title-font-size">
                     </div>
                 </nav>
             </div>

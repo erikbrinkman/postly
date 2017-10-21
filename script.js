@@ -2,8 +2,10 @@
 window.addEventListener("load", () => {
     document.querySelector("#poster").contentWindow.addEventListener("load", () => {
 
-        // Poster Document
+        // Useful variables
         var pdoc = document.querySelector("#poster").contentDocument;
+        var paperStyle;
+        var customStyle;
 
         /*----------------------------------
          * Configuration of save, load, etc
@@ -69,18 +71,18 @@ window.addEventListener("load", () => {
                 addBoxInstrumentation(boxes[i]);
             }
 
+            // Update variables
+            paperStyle = pdoc.querySelector("#postly--paper-style").sheet.rules;
+            customStyle = pdoc.querySelector("#postly--custom-style").sheet.rules;
+
             // Adjust css sidebar
             document.querySelector("#num-columns").value = pdoc.querySelectorAll(".postly--column").length;
-            var rules = pdoc.querySelector("#postly--paper-style").sheet.rules;
-            var pageSize = null;
-            for (var i = 0; i < rules.length; i++) {
-                if (rules[i].type === 6) {
-                    pageSize = rules[i].style.size;
-                    break;
-                }
-            }
+
+            var pageSize = paperStyle[2].style.size; // Fragile
             paperSizeButton.innerHTML = "";
             paperSizeButton.appendChild(document.createTextNode(sizeToName[pageSize]));
+
+            document.querySelector("#title-font-size").value = parseFloat(customStyle[3].style.fontSize);
         }
 
         // TODO Add drag and drop support: https://developer.mozilla.org/en-US/docs/Using_files_from_web_applications#Selecting_files_using_drag_and_drop
@@ -112,14 +114,14 @@ window.addEventListener("load", () => {
                 instrumentations[i].parentNode.removeChild(instrumentations[i]);
             }
             // Set page style appropriately
-            var newPageStyle = cssRulesToString(pdoc.querySelector("#postly--paper-style").sheet.rules);
-            var newCustomStyle = cssRulesToString(pdoc.querySelector("#postly--custom-style").sheet.rules);
-            var pageStyle = clone.querySelector("#postly--paper-style");
-            pageStyle.innerHTML = "";
-            pageStyle.appendChild(document.createTextNode(newPageStyle));
-            var customStyle = clone.querySelector("#postly--custom-style");
-            customStyle.innerHTML = "";
-            customStyle.appendChild(document.createTextNode(newCustomStyle));
+            var newPaperStyle = cssRulesToString(paperStyle);
+            var newCustomStyle = cssRulesToString(customStyle);
+            var clonePaperStyle = clone.querySelector("#postly--paper-style");
+            clonePaperStyle.innerHTML = "";
+            clonePaperStyle.appendChild(document.createTextNode(newPaperStyle));
+            var cloneCustomStyle = clone.querySelector("#postly--custom-style");
+            cloneCustomStyle.innerHTML = "";
+            cloneCustomStyle.appendChild(document.createTextNode(newCustomStyle));
 
             var blob = new Blob([clone.outerHTML], {type: "text/html"});
             var url = URL.createObjectURL(blob);
@@ -198,17 +200,17 @@ window.addEventListener("load", () => {
             var width = dimensions[0],
                 height = dimensions[1],
                 unit = dimensions[2];
-            var pageStyle = pdoc.querySelector("#postly--paper-style").sheet.rules;
 
             // This is very fragile, but other than direct searching, I don't know a good way to do this
-            pageStyle[0].style.height = `${height / width * 100}vw`;
-            pageStyle[1].media.mediaText = `(min-aspect-ratio: ${width} / ${height})`;
-            pageStyle[1].cssRules[0].style.fontSize = `${width / height}vh`;
-            pageStyle[1].cssRules[2].style.width = `${width / height * 100}vh`;
-            pageStyle[2].style.size = `${width}${unit} ${height}${unit}`;
-            pageStyle[3].cssRules[0].style.fontSize = `${width / 100}${unit}`;
-            pageStyle[3].cssRules[1].style.width = `${width}${unit}`;
-            pageStyle[3].cssRules[1].style.height = `${height}${unit}`;
+            paperStyle[0].style.height = `${height / width * 100}vw`;
+            // FIXME find minimum integers to preserve aspect ratio
+            paperStyle[1].media.mediaText = `(min-aspect-ratio: ${width} / ${height})`;
+            paperStyle[1].cssRules[0].style.fontSize = `${width / height}vh`;
+            paperStyle[1].cssRules[2].style.width = `${width / height * 100}vh`;
+            paperStyle[2].style.size = `${width}${unit} ${height}${unit}`;
+            paperStyle[3].cssRules[0].style.fontSize = `${width / 100}${unit}`;
+            paperStyle[3].cssRules[1].style.width = `${width}${unit}`;
+            paperStyle[3].cssRules[1].style.height = `${height}${unit}`;
         }
 
         var sizeOptions = paperSizeMenu.children;
@@ -220,6 +222,12 @@ window.addEventListener("load", () => {
                 setPageDimensions(namedSizes[size]);
             });
         }
+
+        // Title Font Size
+        var titleFontSize = document.querySelector("#title-font-size");
+        titleFontSize.addEventListener("input", e => {
+            customStyle[3].style.fontSize = titleFontSize.value + "rem";
+        });
 
         /*-------------------
          * Dragging Handlers

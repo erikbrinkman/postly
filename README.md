@@ -7,8 +7,8 @@ TODOs
 -----
 
 * Make title editable, and have it reflect file saved to, and load it based off
-  of file loaded.
-* Sync CSS : http://stackoverflow.com/questions/3326494/parsing-css-in-javascript-jquery
+  of file loaded. / Maybe just grab the current title for the file name?
+* Add "default style" button at bottom to reset style to "new"
 * Insert images / edit images : http://stackoverflow.com/questions/18650168/convert-blob-to-base64
 * CSS Themes
 * Webfonts
